@@ -1,7 +1,7 @@
 
 // @ts-ignore
 import { stopSubmit } from 'redux-form';
-import { authAPI } from '../api/api';
+import { authAPI, ResultCodesEnum } from '../api/api';
 import { ThunkAction } from 'redux-thunk';
 import { AppStateType } from './redux-store';
 
@@ -74,7 +74,7 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 // Получаем данные пользователя
 export const getAuthUserData = (): ThunkType => async (dispatch) => {
 	let response = await authAPI.me();
-	if (response.resultCode === 0) {
+	if (response.resultCode === ResultCodesEnum.Success) {
 		let { id, email, login } = response.data;
 		dispatch(setAuthUserData(id, email, login, true));
 	}
@@ -83,8 +83,8 @@ export const getAuthUserData = (): ThunkType => async (dispatch) => {
 
 // Залогиниться
 export const login = (email: string, password: string, rememberMe: boolean): ThunkType => async (dispatch) => {
-	let response = await authAPI.login(email, password, rememberMe)
-	if (response.resultCode === 0) {
+	let response = await authAPI.login(email, password, rememberMe);
+	if (response.resultCode === ResultCodesEnum.Success) {
 		dispatch(getAuthUserData());
 	} else {
 		let message = response.messages.length > 0 ? response.messages[0] : 'Some error'

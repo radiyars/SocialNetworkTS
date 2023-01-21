@@ -137,6 +137,7 @@ type ToggleFollowingProgressActionType = {
 	isFetching: boolean
 	userId: number
 }
+
 // Определяем блокировать кнопку FOLLOW или нет
 export const toggleFollowingProgress = (isFetching: boolean, userId: number): ToggleFollowingProgressActionType => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId });
 
