@@ -1,19 +1,23 @@
 import React from "react";
-import { reduxForm } from "redux-form";
+import { InjectedFormProps, reduxForm } from "redux-form";
 import { login } from '../../redux/auth-reducer';
 import { connect } from 'react-redux';
 import { createField, Input } from "../common/FormsControls/FormsControls";
 import { maxLengthCreator, required } from "../utils/validators/validators";
 import { Navigate } from "react-router-dom";
 import style from './../common/FormsControls/FormsControls.module.css';
+import { AppStateType } from "../../redux/redux-store";
+// import { type } from "os";
 
 
-const LoginForm = ({ handleSubmit, error }) => {
+
+
+const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType>> = ({ handleSubmit, error }) => {
 	return (
 		<form onSubmit={handleSubmit} >
 			{createField('Email', 'email', [required, maxLengthCreator(30)], Input)}
 			{createField('Password', 'password', [required, maxLengthCreator(30)], Input, { type: 'password' })}
-			{createField(null, 'rememberMe', [], Input, { type: 'checkbox' }, 'remember me')}
+			{createField(undefined, 'rememberMe', [], Input, { type: 'checkbox' }, 'remember me')}
 
 			{error && <div className={style.formSummaryError}>
 				{error}
@@ -26,11 +30,25 @@ const LoginForm = ({ handleSubmit, error }) => {
 }
 
 
-const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm);
+const LoginReduxForm = reduxForm<LoginFormValuesType>({ form: 'login' })(LoginForm);
 
 
-const Login = (props) => {
-	const onSubmit = (formData) => {
+type MapStateToPropsType = {
+	isAuth: boolean
+}
+
+type MapDispatchToPropsType = {
+	login: (email: string, password: string, rememberMe: boolean) => void
+}
+
+type LoginFormValuesType = {
+	email: string
+	password: string
+	rememberMe: boolean
+}
+
+const Login: React.FC<MapStateToPropsType & MapDispatchToPropsType> = (props) => {
+	const onSubmit = (formData: any) => {
 		props.login(formData.email, formData.password, formData.rememberMe);
 	}
 
@@ -45,7 +63,7 @@ const Login = (props) => {
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
 	isAuth: state.auth.isAuth,
 })
 
