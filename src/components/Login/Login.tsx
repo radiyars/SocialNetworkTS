@@ -7,7 +7,6 @@ import { maxLengthCreator, required } from "../utils/validators/validators";
 import { Navigate } from "react-router-dom";
 import style from './../common/FormsControls/FormsControls.module.css';
 import { AppStateType } from "../../redux/redux-store";
-// import { type } from "os";
 
 
 
@@ -15,9 +14,9 @@ import { AppStateType } from "../../redux/redux-store";
 const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType>> = ({ handleSubmit, error }) => {
 	return (
 		<form onSubmit={handleSubmit} >
-			{createField('Email', 'email', [required, maxLengthCreator(30)], Input)}
-			{createField('Password', 'password', [required, maxLengthCreator(30)], Input, { type: 'password' })}
-			{createField(undefined, 'rememberMe', [], Input, { type: 'checkbox' }, 'remember me')}
+			{createField<LoginFormValuesTypeKeys>('Email', 'email', [required, maxLengthCreator(30)], Input)}
+			{createField<LoginFormValuesTypeKeys>('Password', 'password', [required, maxLengthCreator(30)], Input, { type: 'password' })}
+			{createField<LoginFormValuesTypeKeys>(undefined, 'rememberMe', [], Input, { type: 'checkbox' }, 'remember me')}
 
 			{error && <div className={style.formSummaryError}>
 				{error}
@@ -41,11 +40,15 @@ type MapDispatchToPropsType = {
 	login: (email: string, password: string, rememberMe: boolean) => void
 }
 
-type LoginFormValuesType = {
+export type LoginFormValuesType = {
 	email: string
 	password: string
 	rememberMe: boolean
 }
+
+type LoginFormValuesTypeKeys = Extract<keyof LoginFormValuesType, string>;
+
+
 
 const Login: React.FC<MapStateToPropsType & MapDispatchToPropsType> = (props) => {
 	const onSubmit = (formData: any) => {

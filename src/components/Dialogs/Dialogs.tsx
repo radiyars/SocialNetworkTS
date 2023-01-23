@@ -2,7 +2,6 @@ import React from 'react';
 import DialogItem from './DialogItem/DialogItem';
 import styles from './Dialogs.module.css';
 import Message from './Message/Message';
-// @ts-ignore
 import { DialogType, MessagesType } from '../../types/types';
 import AddMessageFormRedux from './AddMessageForm/AddMessageForm';
 

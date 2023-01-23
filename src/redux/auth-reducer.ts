@@ -1,5 +1,4 @@
 
-// @ts-ignore
 import { stopSubmit } from 'redux-form';
 import { authAPI, ResultCodesEnum } from '../api/api';
 import { ThunkAction } from 'redux-thunk';
@@ -87,7 +86,8 @@ export const login = (email: string, password: string, rememberMe: boolean): Thu
 	if (response.resultCode === ResultCodesEnum.Success) {
 		dispatch(getAuthUserData());
 	} else {
-		let message = response.messages.length > 0 ? response.messages[0] : 'Some error'
+		let message = response.messages.length > 0 ? response.messages[0] : 'Some error';
+		// @ts-ignore
 		dispatch(stopSubmit('login', { _error: message }));
 	}
 };
