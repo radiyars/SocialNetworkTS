@@ -21,6 +21,10 @@ let rootReducer = combineReducers({
 type RootReducerType = typeof rootReducer; //(global:AppStateType) => AppStateType
 export type AppStateType = ReturnType<RootReducerType>;
 
+type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never;
+export type InferActionsTypes<T extends { [key: string]: (...args: any[]) => {} }> = ReturnType<PropertiesTypes<T>>;
+
+
 // Создаем store. В нем уже имеются методы gerState, subcscribe, dispatch.
 // Создает state, у которого внутри появляются свойства из reducers
 let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
