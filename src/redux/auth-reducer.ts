@@ -1,11 +1,9 @@
 
 import { stopSubmit } from 'redux-form';
-import { authAPI, ResultCodesEnum } from '../api/api';
-import { ThunkAction } from 'redux-thunk';
-import { AppStateType } from './redux-store';
+import { ResultCodesEnum } from '../api/api';
+import { authAPI } from '../api/auth-api';
+import { BaseThunkType, InferActionsTypes } from './redux-store';
 
-
-const SET_USER_DATA = 'auth/SET_USER_DATA';
 
 // --------------------------------------------------------------------------------------
 // state по умолчанию
@@ -23,15 +21,14 @@ export type InitialStateType = typeof initialState;
 // Reducer
 
 // ! --> action: any
-const authReducer = (state = initialState, action: any): InitialStateType => {
+const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 
 	switch (action.type) {
 
-		case SET_USER_DATA:
+		case 'SN/AUTH/SET_USER_DATA':
 			return {
 				...state,
 				...action.payload,
-				// userId: 'sdfs',
 			}
 
 		default:
@@ -44,38 +41,29 @@ const authReducer = (state = initialState, action: any): InitialStateType => {
 // ---------------------------------------------------------------------------------------
 // ActionCreators
 
-type setAuthUserDataActionPayloadType = {
-	userId: number | null
-	email: string | null
-	login: string | null
-	isAuth: boolean | null
+export type ActionsTypes = InferActionsTypes<typeof actions>;
+
+export const actions = {
+
+	// Устанавливаем данные пользователя
+	setAuthUserData: (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
+		type: 'SN/AUTH/SET_USER_DATA',
+		payload: { userId, email, login, isAuth }
+	} as const),
 }
-
-type setAuthUserDataActionType = {
-	type: typeof SET_USER_DATA
-	payload: setAuthUserDataActionPayloadType
-}
-
-// Устанавливаем данные пользователя
-export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean): setAuthUserDataActionType => ({
-	type: SET_USER_DATA,
-	payload: { userId, email, login, isAuth }
-});
-
-type ActionsTypes = setAuthUserDataActionType;
 
 
 // ---------------------------------------------------------------------------------------
 // Thunks
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+type ThunkType = BaseThunkType<ActionsTypes>;
 
 // Получаем данные пользователя
 export const getAuthUserData = (): ThunkType => async (dispatch) => {
 	let response = await authAPI.me();
 	if (response.resultCode === ResultCodesEnum.Success) {
 		let { id, email, login } = response.data;
-		dispatch(setAuthUserData(id, email, login, true));
+		dispatch(actions.setAuthUserData(id, email, login, true));
 	}
 };
 
@@ -97,7 +85,7 @@ export const login = (email: string, password: string, rememberMe: boolean): Thu
 export const logout = (): ThunkType => async (dispatch) => {
 	let response = await authAPI.logout()
 	if (response.resultCode === 0) {
-		dispatch(setAuthUserData(null, null, null, false));
+		dispatch(actions.setAuthUserData(null, null, null, false));
 	}
 };
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { follow, setCurrentPage, unfollow, requestUsers, toggleFollowingProgress } from "../../redux/users-reducer";
+import { follow, unfollow, requestUsers, actions, } from "../../redux/users-reducer";
+// import { follow, setCurrentPage, unfollow, requestUsers, toggleFollowingProgress } from "../../redux/users-reducer";
 import Users from './Users';
 import Preloader from "../common/preloader/Preloader";
 import { UserType } from "../../types/types";
@@ -86,7 +87,6 @@ export default
 		mapStateToProps, {
 		follow,
 		unfollow,
-		setCurrentPage,
-		toggleFollowingProgress,
-		getUsers: requestUsers
+		getUsers: requestUsers,
+		...actions,
 	})(UsersContainer);

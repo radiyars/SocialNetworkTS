@@ -1,6 +1,7 @@
-import { ProfileType, PostsType } from './../types/types';
-import { usersAPI, profileAPI, ResultCodesEnum } from '../api/api';
 import { ThunkAction } from 'redux-thunk';
+import { ResultCodesEnum } from '../api/api';
+import { profileAPI } from './../api/profile-api';
+import { PostsType, ProfileType } from './../types/types';
 import { AppStateType } from './redux-store';
 
 
@@ -107,7 +108,7 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 
 export const getUserProfile = (userId: number): ThunkType => async (dispatch: any) => {
-	let response = await usersAPI.getUserProfile(userId);
+	let response = await profileAPI.getUserProfile(userId);
 	dispatch(setUserProfile(response));
 };
 

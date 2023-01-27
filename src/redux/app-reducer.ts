@@ -1,30 +1,26 @@
 import { getAuthUserData } from './auth-reducer';
-import { ThunkAction } from 'redux-thunk';
-import { AppStateType } from './redux-store';
-
-const INITIALIZED_SUCCESS = '/INITIALIZED_SUCCESS';
+import { BaseThunkType, InferActionsTypes } from './redux-store';
 
 
 // ---------------------------------------------------------------------------------------
 // State
-export type initialStateType = {
-	initialized: boolean,
-}
 
 // state по умолчанию
-let initialState: initialStateType = {
+let initialState = {
 	initialized: false,
 }
+
+export type InitialStateType = typeof initialState;
 
 
 // ---------------------------------------------------------------------------------------
 // Reducer
 
-const appReducer = (state = initialState, action: ActionsTypes): initialStateType => {
+const appReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 
 	switch (action.type) {
 
-		case INITIALIZED_SUCCESS:
+		case 'SN/APP/INITIALIZED_SUCCESS':
 			return {
 				...state,
 				initialized: true,
@@ -41,19 +37,19 @@ const appReducer = (state = initialState, action: ActionsTypes): initialStateTyp
 // ActionCreators
 
 
-type initializedSuccessActionType = {
-	type: typeof INITIALIZED_SUCCESS
-}
-// Инициализация успешна
-export const initializedSuccess = (): initializedSuccessActionType => ({ type: INITIALIZED_SUCCESS });
+type ActionsTypes = InferActionsTypes<typeof actions>;
 
-type ActionsTypes = initializedSuccessActionType;
+const actions = {
+	// Инициализация успешна
+	initializedSuccess: () => ({ type: 'SN/APP/INITIALIZED_SUCCESS' } as const),
+
+}
 
 
 // ---------------------------------------------------------------------------------------
 // Thunks
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+type ThunkType = BaseThunkType<ActionsTypes>;
 
 // Получаем данные пользователя
 // ! --> dispatch: any
@@ -62,7 +58,7 @@ export const initializeApp = () => (dispatch: any) => {
 
 	Promise.all([promise])
 		.then(() => {
-			dispatch(initializedSuccess());
+			dispatch(actions.initializedSuccess());
 		})
 }
 

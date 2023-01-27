@@ -1,5 +1,5 @@
 // import { createStore } from "redux";
-import { applyMiddleware, combineReducers, legacy_createStore as createStore } from "redux";
+import { Action, applyMiddleware, combineReducers, legacy_createStore as createStore } from "redux";
 import authReducer from "./auth-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import profileReducer from "./profile-reducer";
@@ -7,6 +7,7 @@ import usersReducer from "./users-reducer";
 import thunkMiddleware from "redux-thunk";
 import { reducer as formReducer } from 'redux-form';
 import appReducer from './app-reducer';
+import { ThunkAction } from 'redux-thunk';
 
 // Отдаем редьюсеры редаксовскому стору
 let rootReducer = combineReducers({
@@ -23,6 +24,9 @@ export type AppStateType = ReturnType<RootReducerType>;
 
 type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never;
 export type InferActionsTypes<T extends { [key: string]: (...args: any[]) => {} }> = ReturnType<PropertiesTypes<T>>;
+
+// Тип для санок
+export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>;
 
 
 // Создаем store. В нем уже имеются методы gerState, subcscribe, dispatch.
