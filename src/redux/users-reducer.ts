@@ -27,32 +27,31 @@ export type InitialStateType = typeof initialState;
 const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 	switch (action.type) {
 
-		case 'FOLLOW':
+		case 'SN/USERS/FOLLOW':
 			return {
 				...state,
 				users: updateObjectInArray(state.users, action.userId, 'id', { followed: true })
 			};
 
-		case 'UNFOLLOW':
-
+		case 'SN/USERS/UNFOLLOW':
 			return {
 				...state,
 				users: updateObjectInArray(state.users, action.userId, 'id', { followed: false })
 			};
 
-		case 'SET_USERS':
+		case 'SN/USERS/SET_USERS':
 			return { ...state, users: action.users };
 
-		case 'SET_CURRENT_PAGE':
+		case 'SN/USERS/SET_CURRENT_PAGE':
 			return { ...state, currentPage: action.currentPage };
 
-		case 'SET_TOTAL_USERS_COUNT':
+		case 'SN/USERS/SET_TOTAL_USERS_COUNT':
 			return { ...state, totalUsersCount: action.totalUsersCount };
 
-		case 'TOGGLE_IS_FETCHING':
+		case 'SN/USERS/TOGGLE_IS_FETCHING':
 			return { ...state, isFetching: action.isFetching };
 
-		case 'TOGGLE_IS_FOLLOWING_PROGRESS':
+		case 'SN/USERS/TOGGLE_IS_FOLLOWING_PROGRESS':
 			return {
 				...state,
 				followingInProgress: action.isFetching
@@ -76,25 +75,25 @@ export type ActionsTypes = InferActionsTypes<typeof actions>;
 export const actions = {
 
 	// Подписаться на юзера
-	followSuccses: (userId: number) => ({ type: 'FOLLOW', userId } as const),
+	followSuccses: (userId: number) => ({ type: 'SN/USERS/FOLLOW', userId } as const),
 
 	// Отписаться от юзера
-	unfollowSucces: (userId: number) => ({ type: 'UNFOLLOW', userId } as const),
+	unfollowSucces: (userId: number) => ({ type: 'SN/USERS/UNFOLLOW', userId } as const),
 
 	// Получаем данные на юзеров
-	setUsers: (users: Array<UserType>) => ({ type: 'SET_USERS', users } as const),
+	setUsers: (users: Array<UserType>) => ({ type: 'SN/USERS/SET_USERS', users } as const),
 
 	// Выбираем "порцию" юзеров
-	setCurrentPage: (currentPage: number) => ({ type: 'SET_CURRENT_PAGE', currentPage } as const),
+	setCurrentPage: (currentPage: number) => ({ type: 'SN/USERS/SET_CURRENT_PAGE', currentPage } as const),
 
 	// Сетаем общее количество юзеров
-	setTotalUsersCount: (totalUsersCount: number) => ({ type: 'SET_TOTAL_USERS_COUNT', totalUsersCount } as const),
+	setTotalUsersCount: (totalUsersCount: number) => ({ type: 'SN/USERS/SET_TOTAL_USERS_COUNT', totalUsersCount } as const),
 
 	// Определяем выводить рисунок загрузки или нет
-	toggleIsFetching: (isFetching: boolean) => ({ type: 'TOGGLE_IS_FETCHING', isFetching } as const),
+	toggleIsFetching: (isFetching: boolean) => ({ type: 'SN/USERS/TOGGLE_IS_FETCHING', isFetching } as const),
 
 	// Определяем блокировать кнопку FOLLOW или нет
-	toggleFollowingProgress: (isFetching: boolean, userId: number) => ({ type: 'TOGGLE_IS_FOLLOWING_PROGRESS', isFetching, userId } as const),
+	toggleFollowingProgress: (isFetching: boolean, userId: number) => ({ type: 'SN/USERS/TOGGLE_IS_FOLLOWING_PROGRESS', isFetching, userId } as const),
 
 }
 

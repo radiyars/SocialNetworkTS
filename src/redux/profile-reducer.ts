@@ -2,13 +2,8 @@ import { ThunkAction } from 'redux-thunk';
 import { ResultCodesEnum } from '../api/api';
 import { profileAPI } from './../api/profile-api';
 import { PostsType, ProfileType } from './../types/types';
-import { AppStateType } from './redux-store';
+import { AppStateType, BaseThunkType, InferActionsTypes } from './redux-store';
 
-
-const ADD_POST = 'ADD-POST';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS = 'SET_STATUS';
-const DELETE_POST = 'DELETE_POST';
 
 
 // ---------------------------------------------------------------------------------------
@@ -33,7 +28,7 @@ export type InitialStateType = typeof initialState;
 const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 	switch (action.type) {
 
-		case ADD_POST: {
+		case 'SN/PROFILE-REDUCER/ADD_POST': {
 			let post = action.newPostText;
 			return {
 				...state,
@@ -41,18 +36,18 @@ const profileReducer = (state = initialState, action: ActionsTypes): InitialStat
 			}
 		}
 
-		case SET_USER_PROFILE: {
+		case 'SN/PROFILE-REDUCER/SET_USER_PROFILE': {
 			return { ...state, profile: action.profile }
 		}
 
-		case SET_STATUS: {
+		case 'SN/PROFILE-REDUCER/SET_STATUS': {
 			return {
 				...state,
 				status: action.status
 			}
 		}
 
-		case DELETE_POST: {
+		case 'SN/PROFILE-REDUCER/DELETE_POST': {
 			return {
 				...state,
 				posts: state.posts.filter(p => p.id != action.postId)
@@ -70,59 +65,39 @@ const profileReducer = (state = initialState, action: ActionsTypes): InitialStat
 // ---------------------------------------------------------------------------------------
 // ActionCreators
 
-type ActionsTypes = AddPostActionType | SetUserProfileActionType |
-	SetStatusActionType | DeletePostActionType;
+export type ActionsTypes = InferActionsTypes<typeof actions>;
 
-
-type AddPostActionType = {
-	type: typeof ADD_POST
-	newPostText: string
+export const actions = {
+	addPost: (newPostText: string) => ({ type: 'SN/PROFILE-REDUCER/ADD_POST', newPostText } as const),
+	setUserProfile: (profile: ProfileType) => ({ type: 'SN/PROFILE-REDUCER/SET_USER_PROFILE', profile } as const),
+	setStatus: (status: string) => ({ type: 'SN/PROFILE-REDUCER/SET_STATUS', status } as const),
+	deletePost: (postId: number) => ({ type: 'SN/PROFILE-REDUCER/DELETE_POST', postId } as const),
 }
-export const addPost = (newPostText: string): AddPostActionType => ({ type: ADD_POST, newPostText });
 
-
-type SetUserProfileActionType = {
-	type: typeof SET_USER_PROFILE
-	profile: ProfileType
-}
-export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({ type: SET_USER_PROFILE, profile });
-
-
-type SetStatusActionType = {
-	type: typeof SET_STATUS
-	status: string
-}
-export const setStatus = (status: string): SetStatusActionType => ({ type: SET_STATUS, status });
-
-type DeletePostActionType = {
-	type: typeof DELETE_POST
-	postId: number
-}
-export const deletePost = (postId: number): DeletePostActionType => ({ type: DELETE_POST, postId });
 
 
 // ---------------------------------------------------------------------------------------
 // Thunks
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+type ThunkType = BaseThunkType<ActionsTypes>;
 
 
-export const getUserProfile = (userId: number): ThunkType => async (dispatch: any) => {
+export const getUserProfile = (userId: number): ThunkType => async (dispatch) => {
 	let response = await profileAPI.getUserProfile(userId);
-	dispatch(setUserProfile(response));
+	dispatch(actions.setUserProfile(response));
 };
 
 
-export const getStatus = (userId: number): ThunkType => async (dispatch: any) => {
+export const getStatus = (userId: number): ThunkType => async (dispatch) => {
 	let response = await profileAPI.getStatus(userId);
-	dispatch(setStatus(response));
+	dispatch(actions.setStatus(response));
 };
 
 
-export const updateStatus = (status: string): ThunkType => async (dispatch: any) => {
+export const updateStatus = (status: string): ThunkType => async (dispatch) => {
 	let response = await profileAPI.updateStatus(status)
 	if (response.resultCode === ResultCodesEnum.Success) {
-		dispatch(setStatus(status));
+		dispatch(actions.setStatus(status));
 	}
 };
 

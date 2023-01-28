@@ -22,6 +22,7 @@ let rootReducer = combineReducers({
 type RootReducerType = typeof rootReducer; //(global:AppStateType) => AppStateType
 export type AppStateType = ReturnType<RootReducerType>;
 
+// Тип для самоопределения типа action в редьюсерах
 type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never;
 export type InferActionsTypes<T extends { [key: string]: (...args: any[]) => {} }> = ReturnType<PropertiesTypes<T>>;
 

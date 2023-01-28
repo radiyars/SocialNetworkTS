@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { addMessage } from '../../redux/dialogs-reducer';
+import { actions } from '../../redux/dialogs-reducer';
 import { withAuthNavigate } from '../../hoc/withAuthNavigate';
 import { compose } from 'redux';
 import { DialogType, MessagesType } from '../../types/types'
@@ -32,7 +32,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 export default compose<React.Component>(
 	connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
 		mapStateToProps, {
-		addMessage
+		...actions
 	}),
 	withAuthNavigate
 )(Dialogs);

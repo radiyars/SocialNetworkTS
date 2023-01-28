@@ -1,5 +1,5 @@
 
-import { stopSubmit } from 'redux-form';
+import { FormAction, stopSubmit } from 'redux-form';
 import { ResultCodesEnum } from '../api/api';
 import { authAPI } from '../api/auth-api';
 import { BaseThunkType, InferActionsTypes } from './redux-store';
@@ -56,7 +56,7 @@ export const actions = {
 // ---------------------------------------------------------------------------------------
 // Thunks
 
-type ThunkType = BaseThunkType<ActionsTypes>;
+type ThunkType = BaseThunkType<ActionsTypes | FormAction>;
 
 // Получаем данные пользователя
 export const getAuthUserData = (): ThunkType => async (dispatch) => {
@@ -75,7 +75,6 @@ export const login = (email: string, password: string, rememberMe: boolean): Thu
 		dispatch(getAuthUserData());
 	} else {
 		let message = response.messages.length > 0 ? response.messages[0] : 'Some error';
-		// @ts-ignore
 		dispatch(stopSubmit('login', { _error: message }));
 	}
 };
