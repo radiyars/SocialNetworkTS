@@ -23,8 +23,8 @@ type RootReducerType = typeof rootReducer; //(global:AppStateType) => AppStateTy
 export type AppStateType = ReturnType<RootReducerType>;
 
 // Тип для самоопределения типа action в редьюсерах
-type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never;
-export type InferActionsTypes<T extends { [key: string]: (...args: any[]) => {} }> = ReturnType<PropertiesTypes<T>>;
+// export type InferActionsTypes<T extends { [key: string]: (...args: any[]) => {} }> = ReturnType<PropertiesTypes<T>>;
+export type InferActionsTypes<T> = T extends { [key: string]: (...args: any[]) => infer U } ? U : never;
 
 // Тип для санок
 export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>;

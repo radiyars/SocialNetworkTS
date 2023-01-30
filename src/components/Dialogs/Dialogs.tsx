@@ -12,14 +12,15 @@ type PropsType = {
 	addMessage: (newMessageText: string) => void
 }
 
+export type NewMessagwFormValuesType = { newMessageBody: string }
+
 const Dialogs: React.FC<PropsType> = ({ dialogs, messages, addMessage }) => {
 	let dialogsElements = dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} />);
 	let messagesElements = messages.map(message => <Message message={message.message} key={message.id} />);
 
-	// @ts-ignore
-	let addNewMessage = (values) => {
+	let addNewMessage = (values: NewMessagwFormValuesType) => {
 		// свойства называются также как и name у Field
-		addMessage(values.newMessageText);
+		addMessage(values.newMessageBody);
 	}
 
 	return (

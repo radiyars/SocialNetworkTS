@@ -31,9 +31,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose<React.Component>(
 	connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
-		mapStateToProps, {
-		...actions
-	}),
+		mapStateToProps, { ...actions }),
 	withAuthNavigate
 )(Dialogs);
 

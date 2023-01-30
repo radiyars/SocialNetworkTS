@@ -1,19 +1,19 @@
 // @ts-ignore
-import { Field, reduxForm } from "redux-form";
-import { Tetxtarea } from "../../common/FormsControls/FormsControls";
-import { maxLengthCreator, required } from './../../utils/validators/validators';
+import { InjectedFormProps, reduxForm } from "redux-form";
+import { createField, Tetxtarea } from "../../common/FormsControls/FormsControls";
+import { NewMessagwFormValuesType } from "../Dialogs";
+import { required } from './../../utils/validators/validators';
 
 
+export type NewMessagwFormValuesKeysType = Extract<keyof NewMessagwFormValuesType, string>;
+type PropsType = {};
 
+const AddMessageForm: React.FC<InjectedFormProps<NewMessagwFormValuesType, PropsType> & PropsType> = (props) => {
 
-// @ts-ignore
-const AddMessageForm = (props) => {
 	return (
-		// onSubmit - что должно выполниться когда форма засабмитится
-		// handleSubmit - специальный метод. придет к нам из reduxForm
 		<form onSubmit={props.handleSubmit}>
 			<div>
-				<Field component={Tetxtarea} name='newMessageText' placeholder='Enter your message' validate={[required, maxLengthCreator(10)]} />
+				{createField<NewMessagwFormValuesKeysType>('Enter your message', 'newMessageBody', [required], Tetxtarea)}
 			</div>
 			<div>
 				<button>Send</button>
@@ -22,7 +22,7 @@ const AddMessageForm = (props) => {
 	)
 }
 
-const AddMessageFormRedux = reduxForm({ form: 'dialogaddMessageForm' })(AddMessageForm);
+const AddMessageFormRedux = reduxForm<NewMessagwFormValuesType>({ form: 'dialogaddMessageForm' })(AddMessageForm);
 
 
 export default AddMessageFormRedux;
