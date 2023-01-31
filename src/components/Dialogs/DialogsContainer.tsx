@@ -17,7 +17,7 @@ type MapDispatchPropsType = {
 }
 
 type OwnPropsType = {
-	pageTitle: string
+	// pageTitle: string
 }
 
 
