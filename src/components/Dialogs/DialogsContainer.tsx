@@ -29,7 +29,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 }
 
 
-export default compose<React.Component>(
+export default compose<React.ComponentType>(
 	connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
 		mapStateToProps, { ...actions }),
 	withAuthNavigate

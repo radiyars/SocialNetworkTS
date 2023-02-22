@@ -37,14 +37,11 @@ class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
 					<Navbar />
 					<div className='app-wrapper-content'>
 						<Routes>
-							{/* РЎ РїРѕРјРѕС€СЊСЋ Route СЃР»РµРґРёРј Р·Р° Р°РґСЂРµСЃРЅРѕР№ СЃС‚СЂРѕРєРѕР№, Рё РµСЃР»Рё Р°РґСЂРµСЃ СЃРѕРІРїР°РґР°РµС‚ СЃ path РїСЂРѕСЂРёСЃРѕРІС‹РІР°РµРј РЅР°С€Сѓ РєРѕРјРїРѕРЅРµРЅС‚Сѓ */}
 							<Route path='/profile/:userId' element={<ProfileContainer />} />
 							<Route path='/profile/' element={<ProfileContainer />} />
 							<Route path='/dialogs/*' element={<DialogsContainer />} />
 							<Route path='/users/' element={<UsersContainer />} />
 							<Route path='/login' element={<Login />} />
-
-
 						</Routes>
 					</div>
 				</div>

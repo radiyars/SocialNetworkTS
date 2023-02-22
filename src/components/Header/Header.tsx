@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.css';
-
+import logoPng from '../../assets/images/logo.svg'
 
 type PropsType = {
 	isAuth: boolean | null
@@ -11,12 +11,16 @@ type PropsType = {
 const Header: React.FC<PropsType> = ({ isAuth, logout, login }) => {
 	return (
 		<header className={styles.header}>
-			<img src='https://e7.pngegg.com/pngimages/356/636/png-clipart-logo-graphic-designer-business-online-and-offline-design-ring-orange.png' />
+			<img src={logoPng} alt='logo' />
 
 			<div className={styles.loginBlock}>
 				{isAuth
-					? <div>{login} - <button onClick={logout}>Log out</button></div>
-					: <NavLink to={'/login'} >Login</NavLink>}
+					? <div>{login} <button onClick={logout}>Log out</button></div>
+					: <div>
+						<div>Email: free@samuraijs.com</div>
+						<div>Password: free</div>
+						<NavLink to={'/login'} >Login</NavLink>
+					</div>}
 			</div>
 		</header>
 	)

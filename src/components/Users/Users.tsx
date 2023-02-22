@@ -2,6 +2,7 @@ import React from "react";
 import { UserType } from "../../types/types";
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
+import styles from './Users.module.css';
 
 type PropsType = {
 	currentPage: number
@@ -19,7 +20,7 @@ type PropsType = {
 
 let Users: React.FC<PropsType> = ({ currentPage, totalUsersCount, pageSize, onPageChenged, users, ...props }) => {
 	return (
-		<div>
+		<div className={styles.container}>
 			<div>
 				<Paginator
 					currentPage={currentPage}

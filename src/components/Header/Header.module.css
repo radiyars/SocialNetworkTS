@@ -2,14 +2,22 @@
 .header {
 	grid-area: header;
 	background-color: green;
+	padding: 10px 30px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .header img {
-	width: 20px;
+	width: 70px;
+	opacity: 0.4;
+	padding: 10px;
 }
 
 .loginBlock {
 	float:right;
+	font-size: 16px;
+	color: lightgray;
 }
 
 .loginBlock a {

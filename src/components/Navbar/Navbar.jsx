@@ -14,17 +14,6 @@ function Navbar() {
 			<div>
 				<NavLink to='/users' className={navData => navData.isActive ? classes.active : classes.item}>Users</NavLink>
 			</div>
-
-
-			<div>
-				<NavLink to='/news' className={navData => navData.isActive ? classes.active : classes.item}>News</NavLink>
-			</div>
-			<div>
-				<NavLink to='/music' className={navData => navData.isActive ? classes.active : classes.item}>Music</NavLink>
-			</div>
-			<div>
-				<NavLink to='/settings' className={navData => navData.isActive ? classes.active : classes.item}>Settings</NavLink>
-			</div>
 		</nav>
 	)
 }
